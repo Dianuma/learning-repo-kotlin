@@ -12,6 +12,12 @@
     - [초기화](#초기화)
     - [접근 제어자](#접근-제어자)
     - [Getter | Setter](#getter--setter)
+    - [Object 키워드](#object-키워드)
+    - [Data Class](#data-class)
+- [InheritEx](#InheritEx)
+    - [기본 형태](#기본-형태)
+    - [인자 불일치](#인자-불일치)
+    - [오버라이딩](#오버라이딩)
 - [파일 설명](#파일-설명)
 
 ## FuncEx
@@ -308,6 +314,220 @@ class Student() {
         }
         ```
 ---
+### Object 키워드
+- 싱글톤 패턴의 객체 정의
+- 프로그램 전체에서 단 하나의 인스턴스로 존재재
+```kotlin
+object Singleton {
+    var name: String = "Default Name"
+    var age: Int = 0
+
+    fun printInfo() {
+        println("Name: $name, Age: $age")
+    }
+}
+
+fun main() {
+    // Singleton 객체 사용
+    Singleton.name = "Alice"
+    Singleton.age = 30
+    Singleton.printInfo() // 출력: Name: Alice, Age: 30
+}
+```
+---
+### Companion Object
+- Kotlin에서 클래스와 연관된 객체를 정의하는 데 사용되는 키워드
+- 클래스 내에 선언되며, 해당 클래스의 모든 인스턴스에서 공유되는 정적 멤버를 정의
+- Java 의 ```static``` 멤버와 유사한 역할
+```kotlin
+class MyClass {
+    companion object {
+        const val CONSTANT = "This is a constant"
+        
+        fun printMessage() {
+            println("Hello from the companion object!")
+        }
+    }
+}
+fun main() {
+    println(MyClass.CONSTANT)
+    MyClass.printMessage()
+}
+```
+```kotlin
+// 팩토리 메서드 패턴
+class MyClass private constructor(val name: String) {
+    companion object {
+        fun create(name: String): MyClass {
+            return MyClass(name)
+        }
+    }
+}
+
+fun main() {
+    val instance = MyClass.create("Alice")
+    println(instance.name)
+}
+```
+---
+### Data Class
+- Kotlin에서 데이터 저장을 목적으로 하는 클래스
+- class는 데이터 보관 및 조작을 쉽게 하기 위해 몇 가지 기능을 자동으로 제공
+- 주요 특징
+    - 자동으로 생성되는 메서드
+        - ```toString()```: ```print```시 객체의 내용을 문자열로 반환
+            ```kotlin
+            val user1 = User("Alice", 30)
+            println(user1)
+            ```
+        - ```equals()```: 두 객체의 내용이 같은지 비교
+            ```kotlin
+            val user1 = User("Alice", 30)
+            val user2 = User("Alice", 30)
+            println(user1.equals(user2))
+            ```
+        - ```hashCode()```: 객체의 해시 코드를 반환
+            ```kotlin
+            val user1 = User("Alice", 30)
+            println(user1.hashCode())
+            ```
+        - ```copy()```: 객체를 복사하여 새로운 객체를 생성
+            - 객체 내부의 값이 변화하는 순간 분화되어 다른 HashCode 와 값을 가지게 된다
+            ```kotlin
+            val user1 = User("Alice", 30)
+            val user2 = user1.copy()
+            val user3 = user1.copy(name = "Oliber")
+            ```
+        - ```componentN()```: 객체의 프로퍼티를 순서대로 반환하는 메서드 (구조 분해 선언에 사용)
+            ```kotlin
+            val user = User("Alice", 30)
+            val (name, age) = user
+            ```
+        ```kotlin
+        var person1 = Person("tester1", 20, "Male")
+        var person2 = Person("tester1", 20, "Male")
+        println("person1.hashCode == person2.hashCode: " + (person1.hashCode() == person2.hashCode())) // true
+        println("person1 == person2: " + (person1 == person2)) // true
+        println("person1.equals(person2): " + person1.equals(person2)) // true
+
+        person2.name = "tester2"
+
+        println("person1.hashCode == person2.hashCode: " + (person1.hashCode() == person2.hashCode())) // false
+        println("person1 == person2: " + (person1 == person2)) // false
+        println("person1.equals(person2): " + person1.equals(person2)) // false
+        ```
+    - 주 생성자
+        - data class는 반드시 주 생성자(primary constructor)를 가진다
+        - 주 생성자에는 최소한 하나의 프로퍼티가 있어야 한다
+    - 불변성
+        - data class의 프로퍼티는 기본적으로 val로 선언하여 불변성을 유지하는 것이 일반적
+        - 물론 필요에 따라 var로 선언 가능
+```kotlin
+data class Person( val name: String, val age: Int )
+
+fun main() {
+    var person2: Person = Person("tester2", 30)
+    println(person2)
+    println(person2.name)
+    println(person2.age)
+
+    var person3: Person = person.copy(name="tester3")
+    println(person3)
+    println(person3.name)
+    println(person3.age)
+}
+```
+---
+## InheritEx
+### 기본 형태
+- 기존 클래스(부모 클래스 또는 상위 클래스)의 속성과 메서드를 새로운 클래스(자식 클래스 또는 하위 클래스)가 물려받아 재사용하고 확장할 수 있게 하는 기능
+```kotlin
+// 기본 형태
+open class Animal() {
+    init {
+        println("Animal 생성자")
+    }
+}
+
+open class Dog() : Animal() {
+    init {
+        println("Dog 생성자")
+    }
+}
+
+class Jindo() : Dog() {
+    init {
+        println("Jindo 생성자")
+    }
+}
+
+fun main() {
+    var a: Animal = Animal()
+    var d: Dog = Dog()
+    var j: Jindo = Jindo()
+}
+```
+---
+### 인자 불일치
+- 주 생성자 사용
+    ```kotlin
+    open class BasePerson(name: String, age: Int, club: String) {
+        var name: String
+        var age: Int
+        var club: String
+    }
+    class FootballPlayer(name: String, age: Int) : BasePerson(name, age, "Manchester United") {
+    }
+    ```
+- 생성자 사용
+    ```kotlin
+    open class BasePerson {
+        var name: String
+        var age: Int
+        constructor(name: String) {
+            this.name = name
+        }
+        constructor(name: String, age: Int) {
+            this.name = name
+            this.age = age
+        }
+    }
+    class FootballPlayer : BasePerson {
+        constructor(name: String) : super(name)
+        constructor(name: String, age: Int) : super(name, age)
+    }
+    ```
+---
+### 오버라이딩
+- 함수 덮어 쓰기기
+    ```kotlin
+    open class BasePerson() {
+        open fun speakAge( age: Int ) {
+        }
+    }
+    class FootballPlayer : BasePerson() {
+        override fun speakAge( age: Int ) {
+        }
+    }
+    ```
+- Getter | Setter 오버라이딩딩
+    ```kotlin
+    open class BasePerson() {
+        open var age: Int = 0
+        get() = field
+        set(value) {
+            field = value
+        }
+    }
+    class FootballPlayer : BasePerson() {
+        override var age: Int = 0
+        get() = field
+        set(value) {
+            field = value -5
+        }
+    }
+    ```
+---
 
 ## 파일 설명
 
@@ -380,3 +600,39 @@ class Student() {
 
 **ClassEx09.kt**
 - getter | setter
+
+**ClassEx10.kt**
+- getter | setter 접근제어자
+
+**ClassEx11.kt**
+- getter | setter 초기값 설정정
+
+**ClassEx12.kt**
+- object 키워드를 이용한 싱글톤 객체 생성
+
+**ClassEx13.kt**
+- companion 키워드
+
+**ClassEx14.kt**
+- data class
+
+**ClassEx15.kt**
+- Copy 된 Data Class 간의 동일성 비교
+
+**ClassEx16.kt**
+- data class의 componentN() 를 이용한 구조 분해 선언
+
+**InheritEx01.kt**
+- 상속 클래스 기본 형태 및 초기화 순서
+
+**InheritEx02.kt**
+- 상속을 사용한 클래스 확장 예제
+
+**InheritEx03.kt**
+- 상속 클래스 간의 인자 갯수 불일치
+
+**InheritEx04.kt**
+- 상속 클래스 간의 생성자 오버로딩
+
+**InheritEx05.kt**
+- 상속 클래스 간의 오버라이딩
