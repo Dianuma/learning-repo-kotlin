@@ -316,7 +316,7 @@ class Student() {
 ---
 ### Object 키워드
 - 싱글톤 패턴의 객체 정의
-- 프로그램 전체에서 단 하나의 인스턴스로 존재재
+- 프로그램 전체에서 단 하나의 인스턴스로 존재
 ```kotlin
 object Singleton {
     var name: String = "Default Name"
