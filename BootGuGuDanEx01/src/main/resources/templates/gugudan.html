@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- dan 을 넘겨받아 그 단에 맞는 구구단을 표로 표시-->
+<h3>구구단</h3>
+<p th:text="${dan}"></p>
+<table border="1" cellspacing="0">
+    <tr th:each="i : ${#numbers.sequence(1, 9)}">
+        <td th:text="${dan} + ' X ' + ${i} + ' = ' + ${dan * i}"></td>
+    </tr>
+</table>
+</body>
+</html>

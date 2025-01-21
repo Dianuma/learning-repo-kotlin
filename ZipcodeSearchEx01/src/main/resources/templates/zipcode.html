@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h3>Zipcode</h3>
+<table border="1" cellspacing="0">
+    <tr>
+        <th>Zipcode</th>
+        <th>Sido</th>
+        <th>Gugun</th>
+        <th>Dong</th>
+        <th>Ri</th>
+        <th>Bunji</th>
+    </tr>
+    <tr th:each="zipcode : ${list}">
+        <td th:text="${zipcode.zipcode}"></td>
+        <td th:text="${zipcode.sido}"></td>
+        <td th:text="${zipcode.gugun}"></td>
+        <td th:text="${zipcode.dong}"></td>
+        <td th:text="${zipcode.ri}"></td>
+        <td th:text="${zipcode.bunji}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
