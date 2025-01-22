@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-class controller {
+class MemberController {
 
     @Autowired
     lateinit var memberRepository: MemberRepository

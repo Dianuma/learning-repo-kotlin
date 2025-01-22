@@ -20,26 +20,25 @@ spring.datasource.url=jdbc:mariadb://localhost:3306/sample?serverTimezone=UTC
 spring.datasource.username=root
 spring.datasource.password=!123456
 
-  # MyBatis properties
-mybatis.mapper-locations=classpath:mappers/mapper.xml
+spring.jpa.database-platform=org.hibernate.dialect.MariaDBDialect
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.show-sql=true
 ```
 
 ## 파일 내용
-**MybasitController**
+**MemberController**
 - Controller
-- /mybatis 로 접속 시 mybatis.html 페이지로 이동
+- select() : Member 데이터 조회
+- insert() : Member 데이터 2개 삽입
 
-**MybasitDAO**
-- DAO
-- select() : MybasitMapper 의 select() 메소드 호출
+**Member**
+- @Entity : 테이블과 매핑
 
-**MybasitMapper**
-- Mapper Interface
-- select() : now() 함수를 호출하여 현재 시간을 출력
+**MemberRepository**
+- JpaRepository : Member 데이터 조회, 삽입
 
-**mapper.xml**
-- Mapper XML
-- select : now() 함수를 호출하여 현재 시간을 출력
+**select.html**
+- select() 시 나타나는 페이지
 
-**mybasit.html**
-- 메인 페이지
+**insert.html**
+- insert() 시 나타나는 페이지
