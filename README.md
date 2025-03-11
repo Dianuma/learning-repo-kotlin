@@ -1,8 +1,3 @@
-<h1 align="center"> 스터디 관리 플랫폼 <h1/>
-
-<p align="center">
-    <img src="https://raw.githubusercontent.com/DevPumpkin0113/Devpumpkin0113/refs/heads/main/images/stuv-no-bg.png" width="300">
-</p>
 
 ## 📆 개발 기간
 - **전체 개발 기간** : 2025.02.10 ~ 2025.03.10
